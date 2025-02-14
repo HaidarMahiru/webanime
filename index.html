@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime World</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { color: white; text-align: center; background: black; overflow: hidden; }
+
+        /* Background Video */
+        #bg-video {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            padding: 15px 50px;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .menu-toggle {
+            font-size: 30px;
+            cursor: pointer;
+            color: white;
+        }
+
+        .nav-links {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 60px;
+            right: 10px;
+            background: rgba(0, 0, 0, 0.9);
+            width: 150px;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .nav-links a {
+            display: block;
+            padding: 15px;
+            text-decoration: none;
+            color: white;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover { background: #f39c12; }
+        .nav-active { display: flex; }
+
+        /* Halaman */
+        .page {
+            display: none;
+            padding: 100px 20px;
+            min-height: 100vh;
+        }
+
+        .active { display: block; }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #f39c12;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover { background: #e67e22; }
+
+        /* Karakter */
+        .character-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .character-container img {
+            width: 250px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .character-info {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            width: 80%;
+            max-width: 400px;
+        }
+    </style>
+</head>
+<body onload="initPage()">
+
+    <!-- Background Video -->
+    <video id="bg-video" autoplay playsinline muted loop>
+        <source src="https://files.catbox.moe/z07fgs.mp4" type="video/mp4">
+    </video>
+
+    <!-- Background Audio -->
+    <audio id="bg-audio" loop>
+        <source src="https://files.catbox.moe/ab2b6q.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- Navbar -->
+    <nav>
+        <div class="logo">Anime World</div>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <div class="nav-links">
+            <a onclick="showPage('home')">🏠 Home</a>
+            <a onclick="showPage('characters')">🧑‍Karakter</a>
+            <a onclick="showPage('contact')">📧 Kontak</a>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <section id="home" class="page active">
+        <div class="hero">
+            <h1>Selamat Datang di Anime World!</h1>
+            <p>Temukan karakter anime favoritmu di sini.</p>
+            <span class="btn" onclick="showPage('characters')">Lihat Karakter</span>
+        </div>
+    </section>
+
+    <!-- Characters Page -->
+    <section id="characters" class="page">
+        <h2>My Favorite</h2>
+        <div class="character-container">
+            <img src="https://files.catbox.moe/ofgfpz.jpg">
+            <div class="character-info">
+                <h3>Nama: Mahiru Shiina</h3>
+                <p><strong>Sifat:</strong> Mahiru Shiina adalah gadis baik hati, perfeksionis, tenang, mandiri, dan penyayang, tetapi juga tertutup dan kesepian.</p>
+                <p><strong>Umur:</strong> 16 tahun</p>
+            </div>
+        </div>
+    </section>
+
+<!-- Contact Page -->
+<section id="contact" class="page">
+    <p style="font-size: 22px; font-weight: bold;"><strong>Infokan Waifu Lu😋</strong></p>
+    <br> <!-- Menambahkan jarak ke bawah -->
+    <a href="https://wa.me/62895326884022?text=min+tambahin+waifu+ku+dong+😈" target="_blank" class="btn" style="margin-top: 15px; display: inline-block; font-size: 18px;">Klik di sini</a>
+</section>
+
+    <script>
+        function initPage() {
+            showPage('home'); // Saat buka website, langsung ke Home
+            playVideo(); // Pastikan video langsung berjalan
+            setTimeout(() => { playAudio(); }, 2000); // Coba nyalakan audio setelah 2 detik
+        }
+
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('nav-active');
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+
+            document.querySelector('.nav-links').classList.remove('nav-active'); // Tutup menu setelah pilih halaman
+
+            if (pageId === 'home') {
+                playVideo();
+            }
+        }
+
+        function playVideo() {
+            let video = document.getElementById("bg-video");
+            video.play().catch(error => console.log("Autoplay video dicegah:", error));
+        }
+
+        function playAudio() {
+            let audio = document.getElementById("bg-audio");
+            audio.muted = false; // Pastikan audio tidak mute
+            audio.play().catch(error => console.log("Autoplay audio dicegah:", error));
+        }
+
+        document.addEventListener("click", () => {
+            playAudio(); // Mulai audio saat user klik di mana saja
+        });
+    </script>
+
+</body>
+</html>
